@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>enter location details</title>
+    <link rel="stylesheet" href="css/style_1.css">
+    <script>
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      }
+  
+      function showPosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + latitude + "&lon=" + longitude;
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            var city = data.address.city || data.address.town || data.address.village;
+            document.getElementById("location").innerHTML = "City: " + city;
+          })
+          .catch(error => {
+            alert("Error: " + error);
+          });
+      }
+      function PreviewImage() {
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("imglink").files[0]);
+
+        oFReader.onload = function (oFREvent) {
+            document.getElementById("uploadPreview1").src = oFREvent.target.result;
+        }
+      };
+    </script>
+  </head>
+  <body bgcolor="#191919">
+  <div id="location" style=
+  "position:absolute;
+  top:50px;
+  right:50px;
+  font-size:30px;
+  color:white;"></div>
+    <form class="myform" action="store_loc_details.php" method="post" enctype="multipart/form-data" >
+     <div id="main-wrapper">
+        <center>
+        <h2>enter this location details</h2>
+        </center>
+        <label><b>Enter city name as shown above:</b></label><br>
+        <input name="cityname" type="text" class="inputvalues" placeholder="Type city name as shown above" required/><br>
+        <label><b>Location name:</b></label><br>
+        <input name="locationname" type="text" class="inputvalues" placeholder="Type location name" required/><br>
+        <label><b>Describe this location:</b></label><br>
+        <textarea name="message" id="text" maxlength="2000">
+          please describe this location here
+        </textarea><br>
+        <input name="submit_btn" type="submit" id="signup_btn" value="submit"/><br>
+        <input name="submit_btn" type="submit" id="signup_btn" value="home"/><br>
+      </form>
+    </div>
+  </body>
+</html>
+  
