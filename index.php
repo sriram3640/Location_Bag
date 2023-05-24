@@ -170,7 +170,6 @@ h5{
 		<h1 class="animated-text">LOCATION BAG</h1>
 		<a href="register.php">REGISTRATION</a>
 		<a href="index.php">LOGIN</a>
-		<a href="aboutus.php">ABOUT US</a>
 	</div>
 	<div class="animated-text" id="main-wrapper">
     <h2 style="color:black;">User Login</h2>
@@ -181,7 +180,6 @@ h5{
         <input name="password" type="password" class="inputvalues" placeholder="Type your password" required/><br>
         <input name="login" type="submit" class="btn" id="login_btn" value="Login"/><br>
         <a href="register.php"><input type="button" class="btn" id="register_btn" value="Register"/></a><br>
-        <a href="forgot.php"><input type="button" class="btn" id="forgot_btn" value="Forgot Password"/></a>
     </form>
 		<?php
 		if(isset($_POST['login']))
@@ -243,11 +241,11 @@ toggleBtn.addEventListener('click', function() {
   // If the extra content is hidden, show it
   if (extraContent.style.display === 'none') {
     extraContent.style.display = 'block';
-    toggleBtn.textContent = 'Hide Extra Content';
+    toggleBtn.textContent = 'Hide about this website';
   } else {
     // If the extra content is visible, hide it
     extraContent.style.display = 'none';
-    toggleBtn.textContent = 'Show Extra Content';
+    toggleBtn.textContent = 'Show about this website';
   }
 });
 </script>

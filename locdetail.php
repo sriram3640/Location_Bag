@@ -1,3 +1,7 @@
+<?php
+  session_start();
+  $username = $_SESSION['username'];
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,16 +9,27 @@
   <style>
     /* Global styles */
 body {
-  background: url("https://cdn.pixabay.com/photo/2018/09/03/23/56/sea-3652697__480.jpg") no-repeat center center fixed;
+  background: url("locdetail_background.jpeg") no-repeat center center fixed;
   background-size: cover;
   font-family: "Raleway", sans-serif;
   color: whitesmoke;
 }
 
 #main-wrapper {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+    max-width: 550px;
+    margin: 500px auto 0;
+    padding: 20px;
+    background-color: transparent; /* Change to transparent */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+form {
+    background-color: rgba(0, 0, 0, 0.5); /* Add a background color */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a drop shadow */
+    padding: 20px;
+    max-width: 450px;
+    margin: 0 auto;
 }
 
 h2 {
@@ -45,7 +60,7 @@ input[type="text"],
 textarea {
   padding: 10px;
   font-size: 16px;
-  width: 100%;
+  width: 90%;
   border: none;
   border-radius: 4px;
   background-color: #1f1f1f;
@@ -96,6 +111,59 @@ input[type="submit"]:hover {
     max-width: 90%;
   }
 }
+.navbar-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 1;
+			padding: 0px;
+			display: flex;
+			align-items: center;
+			animation: slide-in 2s ease-out;
+		}
+		
+		.navbar-container img {
+			width: 100px;
+			padding: 10px;
+		}
+		
+		.navbar-container h1 {
+			font-size: 56px;
+			text-align: center;
+			color: white;
+			flex-grow: 1;
+			
+		}
+		
+		.navbar-container a {
+			text-decoration: none;
+			color: white;
+			margin-right: 20px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+		@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.animated-text {
+  animation: slide-in 2s ease-out;
+}
+.anim {
+  animation: slide-in 2s ease-out;
+}
+#place{
+  text-align: center;
+  position: absolute;
+  top: 420px;
+  left:450px;
+}
 
   </style>
   <script>
@@ -108,19 +176,28 @@ input[type="submit"]:hover {
     }
 
     function showPosition(position) {
-      var latitude = position.coords.latitude;
-      var longitude = position.coords.longitude;
-      var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + latitude + "&lon=" + longitude;
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          var city = data.address.city || data.address.town || data.address.village;
-          document.getElementById("location").innerHTML = "City: " + city;
-        })
-        .catch(error => {
-          alert("Error: " + error);
-        });
-    }
+                  var latitude = position.coords.latitude;
+                  var longitude = position.coords.longitude;
+                  var url = "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + latitude + "&lon=" + longitude;
+                  fetch(url)
+                      .then(response => response.json())
+                      .then(data => {
+                          var city = data.address.city || data.address.town || data.address.village;
+                          // Call the PHP script with the city name as a parameter
+                          fetch("locdetail.php?city=" + encodeURIComponent(city))
+                              .then(response => response.text())
+                              .then(data => {
+                                  // Process the response from the PHP script
+                                  window.location.href = "locdetail.php?city=" + encodeURIComponent(city);
+                              })
+                              .catch(error => {
+                                  alert("Error: " + error);
+                              });
+                      })
+                      .catch(error => {
+                          alert("Error: " + error);
+                      });
+              }
 
     function PreviewImage(number) {
       var oFReader = new FileReader();
@@ -132,13 +209,39 @@ input[type="submit"]:hover {
     };
   </script>
 </head>
-<body onload="getLocation()" bgcolor="#191919">
-  <div id="location" style=
-    "position:absolute;
-     top:50px;
-     right:50px;
-     font-size:30px;
-     color:white;"></div>
+<body>
+<center>
+<div class="navbar-container">
+		<img src="loc_4.jpg" alt="image-loading">
+		<h1>LOCATION BAG</h1>
+		<a href="homepage.php">HOME</a>
+    <a href="aboutus.php">ABOUT US</a>
+	</div>
+  <body>
+    <div1 style="text-align: center; color:beige; position:absolute; top:150px; left:470px;">
+    <?php if(isset($_SESSION['username'])) { ?>
+      <p style="font-weight: bold; color:black; font-size:26px;">Welcome, <?php echo $_SESSION['username']; ?>!
+      <form action="index.php" method="post">
+           <button type="submit" name="logout" style="padding:10px; cursor:pointer; font-size:20px; margin:5px; background-color: #7a1183; color: white;border: none;border-radius: 5px;">Logout</button>
+      </form>
+      </p>
+      <center>
+      <button onclick="getLocation()" style="padding:10px; cursor:pointer; font-size:20px; margin:10px; background-color: #7a1183; color: white;border: none;border-radius: 5px;">get my location</button>
+    </center>
+    </div1>
+    <?php } else { ?>
+      <a href="index.php">Login</a>
+    <?php } ?>
+    <?php
+    $con=mysqli_connect("localhost","root","");
+    mysqli_select_db($con,"locdetails");
+if (isset($_GET["city"])) {
+  $city = $_GET["city"];
+} else {
+  $city = "";
+}
+echo "<h2 id='place'>you are in $city</h2>";
+?>
   <div id="main-wrapper">
     <form class="myform" action="locdetail.php" method="post" enctype="multipart/form-data">
       <center>
@@ -171,7 +274,6 @@ input[type="submit"]:hover {
       <img id="uploadPreview3" style="width: 150px; height: 150px;"/><br>
       <input type="submit" id="submit_btn" name="submit_btn" value="Submit"/><br>
 </form>
-
   </div>
 </body>
 </html>
@@ -179,6 +281,7 @@ input[type="submit"]:hover {
 if(isset($_POST['submit_btn'])){
   $cityname=$_POST['cityname'];
   $locationname=$_POST['locationname'];
+  $username=$_SESSION['username'];
   $message=$_POST['message'];
   $locationtype = $_POST['options'];
 
@@ -198,7 +301,7 @@ if(isset($_POST['submit_btn'])){
 
   $con=mysqli_connect("localhost","root","");
   mysqli_select_db($con,"locdetails");
-  $query = "insert into location values('','$cityname','$locationname','$message','$locationtype','$imglink1','$imglink2','$imglink3','0')";
+  $query = "insert into location values('','$cityname','$locationname','$username','$message','$locationtype','$imglink1','$imglink2','$imglink3','0')";
   if(mysqli_query($con, $query)) {
     echo '<script type="text/javascript">'; 
     echo 'alert("Details inserted successfully!");'; 

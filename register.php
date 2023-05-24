@@ -7,31 +7,98 @@
 	<title>Register</title>
 	<link rel="stylesheet" href="css/style.css">
 	<style>
+		@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+		color:greenyellow;
+  }
+  to {
+    transform: translateX(0);
+		color:gold;
+  }
+}
+.animated-text {
+  animation: slide-in 2s ease-out;
+}
 	body {
-	  background: url("https://cdn.pixabay.com/photo/2016/03/18/15/02/ufo-1265186__480.jpg") no-repeat center center fixed;
+	  background: url("register_background_1.jpg") no-repeat center center fixed;
 	  background-size: cover;
 	  color: #fff;
 	}
 	#main-wrapper {
-	  max-width: 750px;
-	  margin: 0 auto;
-	  padding: 20px;
-	  background-color: rgba(0,0,0,0.5); /* Add a semi-transparent black background */
-	  border-radius: 10px; /* Add rounded corners */
-	  box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Add a drop shadow */
-	}
+    max-width: 500px;
+    margin: 200px auto 0;
+    padding: 20px;
+    background-color: transparent; /* Change to transparent */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+form {
+    background-color: rgba(0, 0, 0, 0.5); /* Add a background color */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a drop shadow */
+    padding: 20px;
+    max-width: 450px;
+    margin: 0 auto;
+		color:floralwhite;
+}
 	#heading {
 	  max-width: 800px;
 	  margin: 0 auto;
 	  background-color: rgba(0,0,0,0.5); /* Add a semi-transparent black background */
 	  border-radius: 10px; /* Add rounded corners */
 	  box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Add a drop shadow */
+	  position: sticky;
+	  top: 0;
+	  z-index: 1;
 	}
-	.inputvalues{
-	width:730px;
-	margin:5px auto;
-	padding:5px;
-}
+	.navbar-container {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 1;
+			padding: 0px;
+			display: flex;
+			align-items: center;
+		}
+		
+		.navbar-container img {
+			width: 100px;
+			padding: 10px;
+		}
+		
+		.navbar-container h1 {
+			font-size: 56px;
+			text-align: center;
+			color: #FFD700;
+			flex-grow: 1;
+			
+		}
+		
+		.navbar-container a {
+			text-decoration: none;
+			color: white;
+			margin-right: 20px;
+			font-size: 18px;
+			font-weight: bold;
+			
+		}
+		a:hover {
+			color: greenyellow;
+		}
+		.inputvalues {
+		width: 430px;
+		margin: 5px auto;
+		padding: 5px;
+		caret-color: red;
+		background-color:gainsboro;
+		border-radius: 5px;
+		border: none;
+		outline: none;
+		font-size: 16px;
+	}
 	</style>
 	<script type="text/javascript">
 
@@ -45,25 +112,14 @@
     };
 </script>
 </head>
-<body bgcolor="#191919">
-	<center>
-	<div style=" display: flex;
-  flex-wrap: none;
-  justify-content: none;
-	width:800px; ">
-<img style="width:100px; padding:10px;"src="loc_4.jpg" alt="image-loading">
-<div id="heading">
-	<h1 style="font-size:56px; text-align:center; color:white">&nbsp;LOCATION BAG</h1>
-</div>
-<img style="width:100px; padding:10px;"src="loc_4.jpg" alt="image-loading">
-	</div>	
-	</center>
-<h5 align="right" style="color:white">
-		<a href="index.php" style="text-decoration:none; color:white"> HOME </a> &nbsp; | &nbsp; 
-		<a href="register.php" style="text-decoration:none; color:white"> REGISTRATION </a> &nbsp; | &nbsp; 
-		<a href="index.php" style="text-decoration:none; color:white"> LOGIN </a> &nbsp;
-	</h5>
-	<div id="main-wrapper">
+<body>
+<div class="navbar-container">
+		<img src="loc_4.jpg" alt="image-loading">
+		<h1>LOCATION BAG</h1>
+		<a href="register.php">REGISTRATION</a>
+		<a href="index.php">LOGIN</a>
+	</div>
+	<div class="animated-text" id="main-wrapper">
 	<form class="myform" action="register.php" method="post" enctype="multipart/form-data" >
 		<center>
 			<h2>User Registration</h2>
@@ -149,5 +205,20 @@
 			}
 		?>
 	</div>
+	<marquee id="project_name" direction="right" behavior="alternate"
+	style="
+	position: absolute;
+  color: white;
+  font-family: Georgia, sans-serif;
+  font-size: 50px;
+  letter-spacing: -2px;
+	padding:20px;
+  bottom:-400px;
+  right:100px;
+  left:100px;
+  border-width: 0px;
+	">
+      Location Bag
+    </marquee>
 </body>
 </html>
